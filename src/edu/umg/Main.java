@@ -21,6 +21,7 @@ public class Main {
         
         System.out.println("---------------PROYECTO 1 OPEN SOURCE TICKET REQUEST SYSTEM (OTRS)---------------");
         
+        //El menu princial en el cual se nos preguntara como deseamos ingresar sin como cliente o empleado
         int opcion = 0;
         do{
             System.out.println("\n..........MENU PRINCIPAL............");
@@ -34,6 +35,8 @@ public class Main {
                 case 1:
                     int option = 0;
                     do{
+                        //Si decidimos que entraremos como cluente se nos mostrara
+                        //2 opcines la cual sera agregar un nuevo ticket o mostra el estado del ticket del empleado
                         System.out.println("\n..........MENU CLIENTES............");
                         System.out.println("1...........NUEVO TICKET");
                         System.out.println("2...........MOSTRAR BITACORA DE TICKET");
@@ -47,6 +50,7 @@ public class Main {
                                 int Id = 21;
                                 Id = (int) (Math.random() *50);
                                 
+                                //A continuacion deberemos agregar los siguiente
                                 String datos1,datos2,datos3;
                                 System.out.println("\n\tIngrese los siguientes datos.");
                                 System.out.print("Ingrese el Nit:  ");
@@ -58,16 +62,18 @@ public class Main {
                                 Ticket ticket = new Ticket(Id,datos1, datos2,datos3);
                                 
                                 int no_urgencia = 0;
-                                String estado = "";
+                                String urgencia = "";
                                 
+                                //Se nos preguntara cual es la urgencia del ticket
                                 if(servicio.isEmpty()){
                                     no_urgencia = 0;
                                     System.out.print("Nivel de urgencia:  ");
-                                    estado = sc.next();
+                                    urgencia = sc.next();
                                 } else {
                                     for (int i = 0; i < servicio.size(); i++){
-                                        System.out.println(i + "- - ->" + servicio.get(i).getEstado());
+                                        System.out.println(i + "- - ->" + servicio.get(i).getUrgencia());
                                     }
+                                    //Se podra agrear un nuevo nivel de urgencia si el usuario lo desea
                                     System.out.println(servicio.size() + "- - > Nuevo nivel");
                                     
                                     System.out.print("Seleccione un Nivel: ");
@@ -76,18 +82,22 @@ public class Main {
                                     if(no_urgencia >= servicio.size()){
                                         System.out.print("Nivel de urgencia: ");
                                         sc.nextLine();
-                                        estado = sc.next();
+                                        urgencia = sc.next();
                                     }
                                 }
                                 
+                                //Para la fecha se utilizara un Date el cual servira para generar la fecha en la  
+                                //que se creo el ticket
+                                //Un random para el nit del soporte
                                 Date fecha = new Date();
                                 int random = 0;
                                 random = (int) (Math.random() *1000);
                                 ticket.addBitacora(new Bitacora(random, fecha, false));
                                 
-                                AgregarTicket(no_urgencia, estado, ticket);
+                                AgregarTicket(no_urgencia, urgencia, ticket);
                                 break; 
                             case 2:
+                                //El case 2 sirve para mostrar los ticket que el usuario ha ingresado
                                 BitacoraT();
                                 break;
                             default:
@@ -102,6 +112,8 @@ public class Main {
                 case 2:
                     int respuesta = 0;
                     do{
+                        //La opcion 2 del meni principal lo dejara acceder
+                        //a los ticket igresados por el usuario y mostrar el reporte del total de los tickets
                         System.out.println("\n..........MENU EMPLEADO............");
                         System.out.println("1...........SOLUCIONAR TICKET");
                         System.out.println("2...........MOSTRAR REPORTE DE TICKETS RECIENTES");
@@ -139,17 +151,20 @@ public class Main {
         } while(opcion !=3);
     }
     
-    public static void AgregarTicket(int no_urgencia, String estado, Ticket ticket1){
+    //Sirve para poder agreagar un nievo ticket
+    public static void AgregarTicket(int no_urgencia, String urgencia, Ticket ticket1){
         
         if(no_urgencia < servicio.size()){
             servicio.get(no_urgencia).agregar(ticket1);
         }else{
-            ColaServicio colaservicio1 = new ColaServicio(estado);
+            ColaServicio colaservicio1 = new ColaServicio(urgencia);
             colaservicio1.agregar(ticket1);
             servicio.add(colaservicio1);
         }
     }
     
+    //Nos mostrara un reporte del los tickets que an sido
+    //registrados junto con su Bitarora
     public static void BitacoraT(){
         
         if(0 < servicio.size()){
@@ -160,6 +175,7 @@ public class Main {
         }
     }
     
+    //Si esta en el menu de empleado lo dejara darle solucion al ticket
     public static void Solucion(String msj){
         int solucionar = 0;
         for(int i = 0; i < servicio.size(); i++){
@@ -176,6 +192,7 @@ public class Main {
         }
     }
     
+    //Sive ´para leer los archivos dentro del json 
     public static void MostrarTickets(){
         JSONParser parser = new JSONParser();
         try {

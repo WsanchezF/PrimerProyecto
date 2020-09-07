@@ -4,26 +4,30 @@ import java.util.ArrayList;
 
 public class ColaServicio {
     //Declarar las variables
-    private String estado;
+    private String urgencia;
     private static ArrayList<Ticket> cola = new ArrayList();
     
-    //
-    public ColaServicio(String estado){
-        this.estado = estado;
+    //Getters: Muestra el nivel de urgencia en el que se encuentra el tiket
+    public String getUrgencia() {
+        return urgencia;
+    }
+
+    //Setters: Establecemos el Nivel de emergencia
+    public void setUrgencia(String urgencia) {
+        this.urgencia = urgencia;
+    }
+    
+    //Con este se mostrara el nivel de urgencia que se encuentra e ticket
+    public ColaServicio(String urgencia){
+        this.urgencia = urgencia;
     }
   
+    //Se podra agregar los tickets
     public void agregar(Ticket ticket1){
         cola.add(ticket1);
     }
-
-    public String getEstado() {
-        return estado;
-    }
-
-    public void setEstado(String estado) {
-        this.estado = estado;
-    }
     
+    //Con esta funcion se podra resolver los
     public Ticket Resolver (String nitUsuario){
         Ticket usuario = null;
         for(int i = 0; i < cola.size(); i++){
@@ -34,6 +38,7 @@ public class ColaServicio {
         return usuario;
     }
     
+    //Ara que muestra la bitacora 
     public void MostrarBitacora(){
         for (int i = 0; i < cola.size(); i ++){
             System.out.println(cola.get(i));
@@ -42,6 +47,6 @@ public class ColaServicio {
     }
     
     public String toString(){
-        return "Nivel de Urgencia: " + this.estado;
+        return "Nivel de Urgencia: " + this.urgencia;
     }
 }
